@@ -39,6 +39,8 @@ dependencies:
 
   flutter_bloc: ^8.1.5
   bloc: ^8.1.4
+  flutter_easyloading: ^3.0.5
+  blurrycontainer: ^1.0.2
 
 dev_dependencies:
   flutter_test:

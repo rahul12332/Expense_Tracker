@@ -37,8 +37,10 @@ class AddExpenseScreen extends StatelessWidget {
         },
       );
       // Close the dialog after 2 seconds
-      Future.delayed(Duration(seconds: 2), () {
+      Future.delayed(Duration(seconds: 1), () {
         Navigator.of(context).pop();
+        Navigator.pop(context,true);
+
       });
         }
     // TODO: implement listener
@@ -131,12 +133,26 @@ class AddExpenseScreen extends StatelessWidget {
 
             GestureDetector(
               onTap: (){
-                context.read<AddExpensesCubit>().AddExpense(
-                  food: double.parse(_foodController.text),
-                  transportation: double.parse(_transportationController.text),
-                  entertainment: double.parse(_entertainmentController.text),
-                  untitled: double.parse(_untitledController.text),
-                );
+                if (_foodController.text.isEmpty ||
+                    _transportationController.text.isEmpty ||
+                    _entertainmentController.text.isEmpty ||
+                    _untitledController.text.isEmpty) {
+                  // Show an error message or handle the empty fields scenario
+                  // For example:
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Please fill in all fields.'),
+                    ),
+                  );
+                } else {
+                  // All fields are filled, proceed to save
+                  context.read<AddExpensesCubit>().AddExpense(
+                    food: double.parse(_foodController.text),
+                    transportation: double.parse(_transportationController.text),
+                    entertainment: double.parse(_entertainmentController.text),
+                    untitled: double.parse(_untitledController.text),
+                  );
+                }
               },
               child: Container(
                 height: 50,

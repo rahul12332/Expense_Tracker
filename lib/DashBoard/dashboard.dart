@@ -1,3 +1,4 @@
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:expensetracker/DashBoard/add_expenses_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,17 +69,21 @@ context.read<AddExpensesCubit>()..getExpenseList();
                 Expense('Entertainment', double.parse(state.ExpenseList![0].entertainment.toString()), ),
               ];
 
-              return               Column(
+              return   Column(
                 children: [
                   _buildChart(expenses),
                   Expanded(
                     child: ListView.builder(
                       itemCount: expenses.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(expenses[index].title),
-                          subtitle:
-                          Text('\$${expenses[index].amount.toString()}'),
+                        return Card(
+                          elevation: 0.1,
+                          color: Colors.red.shade100,
+                          child: ListTile(
+                            title: Text(expenses[index].title),
+                            subtitle:
+                            Text('\$${expenses[index].amount.toString()}'),
+                          ),
                         );
                       },
                     ),
@@ -116,19 +121,26 @@ context.read<AddExpensesCubit>()..getExpenseList();
   }
 
   Widget _buildChart(List<Expense> expenses) {
-    return Container(
-      height: 200,
-      padding: EdgeInsets.all(8),
-      child: SfCartesianChart(
-        primaryXAxis: CategoryAxis(),
-        series: <CartesianSeries>[
-          ColumnSeries<Expense, String>(
-            dataSource: expenses,
-            xValueMapper: (Expense expense, _) => expense.title,
-            yValueMapper: (Expense expense, _) => expense.amount,
-            dataLabelSettings: DataLabelSettings(isVisible: true),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: BlurryContainer(
+        color: Colors.white,
+        // color: Color(0xff242746).withOpacity(0.8),
+        elevation: 2,
+        blur: 5,
+        height: 300,
+        padding: EdgeInsets.all(8),
+        child: SfCartesianChart(
+          primaryXAxis: CategoryAxis(),
+          series: <CartesianSeries>[
+            ColumnSeries<Expense, String>(
+              dataSource: expenses,
+              xValueMapper: (Expense expense, _) => expense.title,
+              yValueMapper: (Expense expense, _) => expense.amount,
+              dataLabelSettings: DataLabelSettings(isVisible: true),
+            ),
+          ],
+        ),
       ),
     );
   }

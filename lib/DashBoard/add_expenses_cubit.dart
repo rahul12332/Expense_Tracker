@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:expensetracker/Models/expenseModel/ExpenseModel/expenseModel.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:meta/meta.dart';
 
 import '../Models/expenseModel/expenseModel.dart';
@@ -12,10 +13,12 @@ class AddExpensesCubit extends Cubit<AddExpensesState> {
   List<ExpenseModel>? mainExpenseList = [];
 
   AddExpense({ double ? food,  double? transportation,  double ? untitled,  double ? entertainment}) async {
+    EasyLoading.show();
     await Future.delayed(Duration(seconds: 3));
     mainExpenseList!.clear();
     if(food!=0 && transportation != 0 && untitled != 0 && entertainment != 0){
       mainExpenseList!.add(ExpenseModel(food, transportation, untitled, entertainment));
+      EasyLoading.dismiss();
       emit(DataAddedSuccessfully());
       for(var data in mainExpenseList!){
         print("Testing category name ${data.food}");
